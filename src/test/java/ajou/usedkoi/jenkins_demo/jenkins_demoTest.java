@@ -10,6 +10,6 @@ public class jenkins_demoTest {
 
     @Test
     public void testService(){
-        assertEquals(55, 55);
+        assertEquals(55, service.hap(10));
     }
 }
