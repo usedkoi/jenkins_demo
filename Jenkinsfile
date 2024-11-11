@@ -1,10 +1,14 @@
 pipeline{
     agent any
     stages{
-        stage('Checkout'){
+        stage('Set Variables'){
             steps{
-                git url:"https://github.com/usedkoi/jenkins_demo.git", branch: "master"
-                echo "checkout"
+                sh "echo SetVariables"
+                script{
+                    DOCKER_HUB_URL = 'registry.hub.docker.com'
+                    DOCKER_HUB_FULL_URL = 'https://' + DOCKER_HUB_URL
+                    DOCKER_HUB_CREDENTIAL_ID = 'dkr_blooming12'
+                }
             }
         }
 
@@ -63,6 +67,7 @@ pipeline{
 
         stage("Docker push"){
            steps{
+               sh "echo "$DOCKER_HUB_CREDENTIAL_ID" | docker login -u <username> --password-stdin"
                sh "docker tag jenkins_demo blooming12/jenkins_demo "
                sh "docker push blooming12/jenkins_demo"
            }
