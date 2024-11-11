@@ -57,7 +57,7 @@ pipeline{
 
         stage("Docker Build"){
            steps{
-               sh "usermod -aG docker $USER"
+               sh "sudo usermod -aG docker $USER"
                sh "docker build -t Jenkins_demo ."
            }
         }
