@@ -8,8 +8,8 @@ public class jenkins_demoTest {
     private JenkinsService service = new JenkinsService();
 
     @Test
-    public void testservice() {
-        assertEquals( 10, service.hap(10));
+    public void testService() {
+        assertEquals( 55, service.hap(10));
 
     }
 }
