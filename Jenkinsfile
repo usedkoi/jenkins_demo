@@ -65,12 +65,16 @@ pipeline{
            }
         }
 
-        stage("Docker push"){
-           steps{
-               sh "echo \"\$DOCKER_HUB_CREDENTIAL_ID\" | docker login -u blooming12 --password-stdin"
-               sh "docker tag jenkins_demo blooming12/jenkins_demo "
-               sh "docker push blooming12/jenkins_demo"
-           }
+        stage("Docker push") {
+            steps {
+                withCredentials([string(credentialsId: 'DOCKER_HUB_CREDENTIAL_ID', variable: 'DOCKER_HUB_CREDENTIAL')]) {
+                    sh '''
+                    echo "$DOCKER_HUB_CREDENTIAL" | docker login -u blooming12 --password-stdin
+                    docker tag jenkins_demo blooming12/jenkins_demo
+                    docker push blooming12/jenkins_demo
+                    '''
+                }
+            }
         }
     }
 }
