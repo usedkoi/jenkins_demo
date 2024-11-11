@@ -57,7 +57,7 @@ pipeline{
 
         stage("Docker Build"){
            steps{
-               sh "docker build -t Jenkins_demo ."
+               sh "docker build -t jenkins_demo ."
            }
         }
     }
