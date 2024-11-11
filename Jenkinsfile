@@ -64,7 +64,7 @@ pipeline{
         stage("Docker push"){
            steps{
                sh "docker tag jenkins_demo blooming12/jenkins_demo "
-               sh "docker push blooming12/jenkins_demo ."
+               sh "docker push blooming12/jenkins_demo"
            }
         }
     }
