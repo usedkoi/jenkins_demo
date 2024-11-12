@@ -71,14 +71,14 @@ pipeline{
 
         stage('deployment'){
            steps{
-               sh "docker run -d --rm -p 8081:8080 --name jenkins_demo ${DOCKERHUB_CREDENTIALS_USR}/jenkins_demo"
+               sh "docker run -d --rm -p 8081:8080 --name jenkins_demo ${DOCKERHUB_CREDENTIALS_USR}/jenkins_demo:${BUILD_ID}"
            }
         }
 
         stage('acceptance test'){
           steps{
-              sleep 60
-              sh 'chmod +x acceptance_test.sh && ./acceptance_test.sh'
+              sleep 30
+              sh 'chmod +x ./acceptance_test.sh && ./acceptance_test.sh'
           }
         }
     }
