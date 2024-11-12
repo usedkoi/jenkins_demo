@@ -77,7 +77,9 @@ pipeline{
 
         stage('acceptance test'){
           steps{
-              sleep 30
+              sleep 10
+              sh 'pwd'
+              sh 'ls'
               sh 'chmod +x ./acceptance_test.sh && ./acceptance_test.sh'
           }
         }
