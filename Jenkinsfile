@@ -88,4 +88,10 @@ pipeline{
             }
         }
     }
+
+    post{
+       always{
+           sh 'docker stop jenkins_demo'
+       }
+    }
 }
