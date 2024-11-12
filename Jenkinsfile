@@ -62,7 +62,7 @@ pipeline{
 
         stage("Docker Build"){
            steps{
-               sh "docker build -t jenkins_demo ."
+               sh "docker build -t jenkins_demo:${BUILD_ID} ."
            }
         }
 
@@ -71,8 +71,8 @@ pipeline{
                 withCredentials([usernamePassword(credentialsId: 'us_dkr_blooming12', usernameVariable: 'DOCKER_HUB_USERNAME', passwordVariable: 'DOCKER_HUB_PASSWORD')]) {
                     sh '''
                     echo "$DOCKER_HUB_PASSWORD" | docker login -u "$DOCKER_HUB_USERNAME" --password-stdin
-                    docker tag jenkins_demo $DOCKER_HUB_USERNAME/jenkins_demo
-                    docker push $DOCKER_HUB_USERNAME/jenkins_demo
+                    docker tag jenkins_demo:${BUILD_ID} $DOCKER_HUB_USERNAME/jenkins_demo:${BUILD_ID}
+                    docker push $DOCKER_HUB_USERNAME/jenkins_demo:${BUILD_ID}
                     '''
                 }
             }
