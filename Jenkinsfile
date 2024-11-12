@@ -66,6 +66,9 @@ pipeline{
         stage('docker hub push'){
           steps{
               sh "docker push ${DOCKERHUB_CREDENTIALS_USR}/jenkins_demo:${BUILD_ID}"
+              sh "docker tag ${DOCKERHUB_CREDENTIALS_USR}/jenkins_demo:${BUILD_ID}
+              ${DOCKERHUB_CREDENTIALS_USR}/jenkins_demo:latest"
+              sh "docker push ${DOCKERHUB_CREDENTIALS_USR}/jenkins_demo:latest"
           }
         }
 
