@@ -61,3 +61,12 @@ dependencies {
 tasks.named('test') {
     useJUnitPlatform()
 }
+
+tasks.register('acceptanceTest', Test){
+    include '**/acceptance/**'
+    systemProperties System.getProperties()
+}
+
+test{
+    exclude '**/acceptance/**'
+}
