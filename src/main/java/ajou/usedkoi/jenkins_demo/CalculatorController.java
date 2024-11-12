@@ -7,12 +7,12 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequiredArgsConstructor
-public class JenkinsController {
-    private final JenkinsService jenkinsService;
+public class CalculatorController {
+    private final Calculator calculator;
 
-    @RequestMapping
-    public String index(@RequestParam("data") int data) {
-        return String.valueOf(jenkinsService.hap(data));
+    @RequestMapping("/sum")
+    String sum(@RequestParam("a") Integer a,
+               @RequestParam("b") Integer b){
+        return String.valueOf(calculator.sum(a, b));
     }
 }
-

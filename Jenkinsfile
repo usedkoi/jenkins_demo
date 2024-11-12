@@ -1,18 +1,9 @@
 pipeline{
     agent any
+    environment{
+       DOCKERHUB_CREDENTIALS = credentials("docker-hub")
+    }
     stages{
-        stage('Set Variables'){
-            steps{
-                sh "echo SetVariables"
-                script{
-                    DOCKER_HUB_URL = 'registry.hub.docker.com'
-                    DOCKER_HUB_FULL_URL = 'https://' + DOCKER_HUB_URL
-                    DOCKER_HUB_CREDENTIAL_ID = 'blooming12'
-                    DOCKER_HUB_CREDENTIAL = 'us_dkr_blooming12'
-                }
-            }
-        }
-
         stage('Permission'){
             steps{
                 sh "chmod +x ./gradlew"
@@ -62,20 +53,20 @@ pipeline{
 
         stage("Docker Build"){
            steps{
-               sh "docker build -t jenkins_demo:${BUILD_ID} ."
+               sh "docker build -t ${DOCKERHUB_CREDENTIALS_USR}/jenkins_demo:${BUILD_ID} ."
            }
         }
 
-        stage("Docker push") {
-            steps {
-                withCredentials([usernamePassword(credentialsId: 'us_dkr_blooming12', usernameVariable: 'DOCKER_HUB_USERNAME', passwordVariable: 'DOCKER_HUB_PASSWORD')]) {
-                    sh '''
-                    echo "$DOCKER_HUB_PASSWORD" | docker login -u "$DOCKER_HUB_USERNAME" --password-stdin
-                    docker tag jenkins_demo:${BUILD_ID} $DOCKER_HUB_USERNAME/jenkins_demo:${BUILD_ID}
-                    docker push $DOCKER_HUB_USERNAME/jenkins_demo:${BUILD_ID}
-                    '''
-                }
-            }
+        stage('docker hub login'){
+          steps{
+              sh 'echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin'
+          }
+        }
+
+        stage('docker hub push'){
+          steps{
+              sh "docker push ${DOCKERHUB_CREDENTIALS_USR}/jenkins_demo:${BUILD_ID}"
+          }
         }
     }
 }
