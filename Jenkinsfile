@@ -80,7 +80,7 @@ pipeline{
               sleep 30
               sh '''
               workspace=&pwd
-              chmod +x workspace/acceptance_test.sh && workspace/acceptance_test.sh
+              chmod +x $workspace/acceptance_test.sh && $workspace/acceptance_test.sh
               '''
           }
         }
