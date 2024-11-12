@@ -9,7 +9,7 @@ pipeline{
                     DOCKER_HUB_FULL_URL = 'https://' + DOCKER_HUB_URL
                     DOCKER_HUB_CREDENTIAL_ID = 'us_dkr_blooming12'
                 }
-                sh "echo - $(DOCKER_HUB_FULL_URL)"
+                sh "echo - ${DOCKER_HUB_FULL_URL}"
             }
         }
 
