@@ -78,7 +78,10 @@ pipeline{
         stage('acceptance test'){
           steps{
               sleep 30
-              sh 'chmod +x $WORKSPACE/acceptance_test.sh && $WORKSPACE/acceptance_test.sh'
+              sh '''
+              workspace=&pwd
+              chmod +x workspace/acceptance_test.sh && workspace/acceptance_test.sh
+              '''
           }
         }
     }
