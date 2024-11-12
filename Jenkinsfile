@@ -79,8 +79,8 @@ pipeline{
           steps{
               sleep 30
               sh '''
-              workspace=&pwd
-              chmod +x $workspace/acceptance_test.sh && $workspace/acceptance_test.sh
+              def workspace = sh(returnStdout: true, script: 'pwd').trim()
+              chmod +x ${workspace}/acceptance_test.sh && ${workspace}/acceptance_test.sh
               '''
           }
         }
