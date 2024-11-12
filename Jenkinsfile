@@ -75,14 +75,17 @@ pipeline{
            }
         }
 
-        stage('acceptance test'){
-          steps{
-              sleep 30
-              sh '''
-              def workspace = sh(returnStdout: true, script: 'pwd').trim()
-              chmod +x ${workspace}/acceptance_test.sh && ${workspace}/acceptance_test.sh
-              '''
-          }
+        stage('acceptance test') {
+            steps {
+                sleep 30
+                script {
+                    def workspace = sh(returnStdout: true, script: 'pwd').trim()
+                    sh """
+                        chmod +x ${workspace}/acceptance_test.sh
+                        ${workspace}/acceptance_test.sh
+                    """
+                }
+            }
         }
     }
 }
