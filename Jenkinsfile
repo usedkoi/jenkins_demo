@@ -7,9 +7,9 @@ pipeline{
                 script{
                     DOCKER_HUB_URL = 'registry.hub.docker.com'
                     DOCKER_HUB_FULL_URL = 'https://' + DOCKER_HUB_URL
-                    DOCKER_HUB_CREDENTIAL_ID = 'us_dkr_blooming12'
+                    DOCKER_HUB_CREDENTIAL_ID = 'blooming12'
+                    DOCKER_HUB_CREDENTIAL = 'us_dkr_blooming12'
                 }
-                sh "echo - ${DOCKER_HUB_FULL_URL}"
             }
         }
 
@@ -68,11 +68,11 @@ pipeline{
 
         stage("Docker push") {
             steps {
-                withCredentials([string(credentialsId: 'DOCKER_HUB_CREDENTIAL_ID', variable: 'DOCKER_HUB_CREDENTIAL')]) {
+                withCredentials([usernamePassword(credentialsId: 'us_dkr_blooming12', usernameVariable: 'DOCKER_HUB_USERNAME', passwordVariable: 'DOCKER_HUB_PASSWORD')]) {
                     sh '''
-                    echo "$DOCKER_HUB_CREDENTIAL" | docker login -u blooming12 --password-stdin
-                    docker tag jenkins_demo blooming12/jenkins_demo
-                    docker push blooming12/jenkins_demo
+                    echo "$DOCKER_HUB_PASSWORD" | docker login -u "$DOCKER_HUB_USERNAME" --password-stdin
+                    docker tag jenkins_demo $DOCKER_HUB_USERNAME/jenkins_demo
+                    docker push $DOCKER_HUB_USERNAME/jenkins_demo
                     '''
                 }
             }
